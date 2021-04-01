@@ -13,7 +13,10 @@ exports.handler = async (event, callback) => {
   if (!bip39.validateMnemonic(mnemonic)) {
     throw Error("Phrase invalid");
   }
+  return await getPublicAddress(mnemonic, path);
+};
 
+const getPublicAddress = async (mnemonic, path) => {
   const seed = await bip39.mnemonicToSeed(mnemonic);
   const hdWallet = hdkey.fromMasterSeed(seed);
   const masterNode = hdWallet.derivePath(path);
